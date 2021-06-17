@@ -1,4 +1,9 @@
 from tableauscraper import TableauScraper as TS
+import private
+from bot_functions import startBot
+
+# Obtain keys from private.py
+api = startBot(private.consumer_key, private.consumer_secret_key, private.access_token, private.access_token_secret)
 
 url = "https://public.tableau.com/views/SALUDVACUNASCOVIDV3/Dashboard1"
 
