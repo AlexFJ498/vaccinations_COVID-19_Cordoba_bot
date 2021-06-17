@@ -1,28 +1,32 @@
 from tableauscraper import TableauScraper as TS
 
-url = "https://public.tableau.com/views/SALUDVACUNASCOVIDV3/Dashboard1?:language=es&:display_count=y&publish=yes&:origin=viz_share_link&:embed=y&:showVizHome=n&:tabs=n&:toolbar=n&showShareOptions=false&:apiID=host0"
+url = "https://public.tableau.com/views/SALUDVACUNASCOVIDV3/Dashboard1"
 
 ts = TS()
 ts.loads(url)
-workbook = ts.getWorkbook()
-
-for t in workbook.worksheets:
-    print(f"worksheet name: {t.name}") # show worksheet name
-    print(t.data) # show dataframe for this worksheet
-
-print("---------------")
-
 ws = ts.getWorksheet("Graficos barras por edad")
-print(ws.data)
 
-print("---------------")
+wss = ts.getWorksheet("Titulo D3")
+wbselections = wss.getSelectableItems()
 
-selections = ws.getSelectableItems()
-print(selections)
+for i in wbselections:
+    if i.get('column') == 'DAY(Fecha)':
+        date = i.get('values')[-1]
 
-print("---------------")
+# Get data from Córdoba
+cordoba_wb = ws.setFilter('Territorio', 'Córdoba')
+cordoba_ws = cordoba_wb.getWorksheet("Graficos barras por edad")
 
-dashboard = ws.select("SUMA(Cobertura Pauta completa)", 0.3)
+selections = cordoba_ws.getSelectableItems()
 
-for t in dashboard.worksheets:
-    print(t.data)
+# Find value of "Pauta completa"
+for i in selections:
+    if i.get('column') == 'SUM(Pauta completa)':
+        pauta_completa = i.get('values')[-1]
+        continue
+    
+    if i.get('column') == 'SUM(Cobertura Pauta completa)':
+        cobertura_pauta_completa = i.get('values')[-1]
+        continue
+
+print(f"Dato de vacunaciones en córdoba: {pauta_completa} ({cobertura_pauta_completa}%). Fecha: {date}")
