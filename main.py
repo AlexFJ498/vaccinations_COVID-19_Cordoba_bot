@@ -4,23 +4,24 @@ url = "https://public.tableau.com/views/SALUDVACUNASCOVIDV3/Dashboard1"
 
 ts = TS()
 ts.loads(url)
-ws = ts.getWorksheet("Graficos barras por edad")
 
-wss = ts.getWorksheet("Titulo D3")
-wbselections = wss.getSelectableItems()
+# Get title sheet to obtain date
+dateSheet = ts.getWorksheet("Titulo D3")
+dateSelection = dateSheet.getSelectableItems()
 
-for i in wbselections:
+for i in dateSelection:
     if i.get('column') == 'DAY(Fecha)':
         date = i.get('values')[-1]
 
-# Get data from Córdoba
-cordoba_wb = ws.setFilter('Territorio', 'Córdoba')
-cordoba_ws = cordoba_wb.getWorksheet("Graficos barras por edad")
+# Get main sheet to obtain data from Córdoba
+mainSheet = ts.getWorksheet("Graficos barras por edad")
+cordobaSheet = mainSheet.setFilter('Territorio', 'Córdoba')
+cordobaData = cordobaSheet.getWorksheet("Graficos barras por edad")
 
-selections = cordoba_ws.getSelectableItems()
+cordobaSelection = cordobaData.getSelectableItems()
 
 # Find value of "Pauta completa"
-for i in selections:
+for i in cordobaSelection:
     if i.get('column') == 'SUM(Pauta completa)':
         pauta_completa = i.get('values')[-1]
         continue
