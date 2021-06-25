@@ -1,38 +1,42 @@
 from tableauscraper import TableauScraper as TS
-import private
-from bot_functions import startBot
+from private import consumer_key, consumer_secret_key, access_token, access_token_secret
+from bot_functions import startBot, progressBar
+from PIL import ImageColor
 
 # Obtain keys from private.py
-api = startBot(private.consumer_key, private.consumer_secret_key, private.access_token, private.access_token_secret)
+api = startBot(consumer_key, consumer_secret_key, access_token, access_token_secret)
 
-url = "https://public.tableau.com/views/SALUDVACUNASCOVIDV3/Dashboard1"
+progressBar()
 
-ts = TS()
-ts.loads(url)
+# url = "https://public.tableau.com/views/SALUDVACUNASCOVIDV3/Dashboard1"
 
-# Get title sheet to obtain date
-dateSheet = ts.getWorksheet("Titulo D3")
-dateSelection = dateSheet.getSelectableItems()
+# ts = TS()
+# ts.loads(url)
 
-for i in dateSelection:
-    if i.get('column') == 'DAY(Fecha)':
-        date = i.get('values')[-1]
+# # Get title sheet to obtain date
+# dateSheet = ts.getWorksheet("Titulo D3")
+# dateSelection = dateSheet.getSelectableItems()
 
-# Get main sheet to obtain data from Córdoba
-mainSheet = ts.getWorksheet("Graficos barras por edad")
-cordobaSheet = mainSheet.setFilter('Territorio', 'Córdoba')
-cordobaData = cordobaSheet.getWorksheet("Graficos barras por edad")
+# for i in dateSelection:
+#     if i.get('column') == 'DAY(Fecha)':
+#         date = i.get('values')[-1]
 
-cordobaSelection = cordobaData.getSelectableItems()
+# # Get main sheet to obtain data from Córdoba
+# mainSheet = ts.getWorksheet("Graficos barras por edad")
+# cordobaSheet = mainSheet.setFilter('Territorio', 'Córdoba')
+# cordobaData = cordobaSheet.getWorksheet("Graficos barras por edad")
 
-# Find value of "Pauta completa"
-for i in cordobaSelection:
-    if i.get('column') == 'SUM(Pauta completa)':
-        pauta_completa = i.get('values')[-1]
-        continue
+# cordobaSelection = cordobaData.getSelectableItems()
+
+# # Find value of "Pauta completa"
+# for i in cordobaSelection:
+#     if i.get('column') == 'SUM(Pauta completa)':
+#         pauta_completa = i.get('values')[-1]
+#         continue
     
-    if i.get('column') == 'SUM(Cobertura Pauta completa)':
-        cobertura_pauta_completa = i.get('values')[-1]
-        continue
+#     if i.get('column') == 'SUM(Cobertura Pauta completa)':
+#         cobertura_pauta_completa = i.get('values')[-1]
+#         continue
 
-print(f"Dato de vacunaciones en córdoba: {pauta_completa} ({cobertura_pauta_completa}%). Fecha: {date}")
+# print(f"Dato de vacunaciones en córdoba (pauta completa): {pauta_completa} ({cobertura_pauta_completa}%). Fecha: {date}")
+# api.update_status(f"Dato de vacunaciones en córdoba (pauta completa): {pauta_completa} ({cobertura_pauta_completa}%). Fecha: {date}");

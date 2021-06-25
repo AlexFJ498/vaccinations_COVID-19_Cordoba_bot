@@ -1,5 +1,7 @@
 # Private file with important keys
 private.py
+image.jpg
+result.jpg
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
