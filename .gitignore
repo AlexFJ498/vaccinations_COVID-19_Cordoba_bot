@@ -8,8 +8,7 @@ private.py
 /.vscode
 
 #images
-image.jpg
-result.jpg
+/images
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
