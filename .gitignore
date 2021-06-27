@@ -1,5 +1,13 @@
 # Private file with important keys
 private.py
+
+#environment
+/env_vacunaciones
+
+#vscode
+/.vscode
+
+#images
 image.jpg
 result.jpg
 
