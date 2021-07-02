@@ -1,9 +1,8 @@
-from private import consumer_key, consumer_secret_key, access_token, access_token_secret
 from bot_functions import startBot, createProgressBar, updateProgressBar, getDateScructure, newData
 from tableauscraper import TableauScraper as TS
 
 # Obtain keys from private.py
-api = startBot(consumer_key, consumer_secret_key, access_token, access_token_secret)
+api = startBot()
 
 # Create progress bar for the first time
 # createProgressBar()

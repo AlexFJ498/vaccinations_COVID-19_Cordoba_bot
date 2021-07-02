@@ -1,17 +1,34 @@
 import tweepy
 from PIL import Image, ImageDraw, ImageFont
 from datetime import datetime
+import logging
+import os
+
+logger = logging.getLogger()
 
 fnt1 = ImageFont.truetype('Ubuntu-BI.ttf', 35)
 fnt2 = ImageFont.truetype('Ubuntu-BI.ttf', 25)
 
-def startBot(consumer_key, consumer_secret, access_token, access_token_secret):
+def startBot():
     # Authenticate to Twitter
+    consumer_key =  os.getenv("CONSUMER_KEY")
+    consumer_secret = os.getenv("CONSUMER_SECRET")
+    access_token = os.getenv("ACCESS_TOKEN")
+    access_token_secret = os.getenv("ACCESS_TOKEN_SECRET")
+
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
     auth.set_access_token(access_token, access_token_secret)
-
+    
     # Create API object
-    return tweepy.API(auth)
+    api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
+    try:
+        api.verify_credentials()
+    except Exception as e:
+        logger.error("Error creating API", exc_info=True)
+        raise e
+    logger.info("API created")
+    
+    return api
 
 def createProgressBar():   	 
     with Image.open("../images/white.jpg") as img:
