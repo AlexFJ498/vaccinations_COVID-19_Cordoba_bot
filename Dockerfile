@@ -10,7 +10,6 @@ ENV PYTHONUNBUFFERED=1
 # Install pip requirements
 COPY src/bot_functions.py /src/
 COPY src/main.py /src/
-COPY src/saved_data.txt /src/
 COPY src/Ubuntu-BI.ttf /src/
 COPY images/ /images/
 COPY requirements.txt /tmp
