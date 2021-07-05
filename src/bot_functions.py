@@ -79,12 +79,22 @@ def updateProgressBar(percentage1D, percentagePautaCompleta, date):
 
         img.save(f"../images/{dt.year}-{dt.month}-{dt.day}.jpg")
 
-def newData(newDate):
-    f = open("saved_data.txt", "r")
-    oldDate = f.readline()
-    f.close()
+def isNewData(api, print_info):
+    # Get last tweet
+    last_tweet = api.user_timeline(screen_name=api.me().screen_name, 
+                                   # 200 is the maximum allowed count
+                                   count=1,
+                                   include_rts = False,
+                                   # Necessary to keep full_text 
+                                   # otherwise only the first 140 words are extracted
+                                   tweet_mode = 'extended')
 
-    if oldDate == newDate:
+    last_tweet = [tweet.full_text for tweet in last_tweet]
+
+    # Compare date of last tweet and new tweet
+    old_date = last_tweet[0].split()[7]
+    new_date = print_info.split()[7]
+
+    if old_date == new_date:
         return False
-    
     return True

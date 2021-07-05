@@ -1,4 +1,4 @@
-from bot_functions import startBot, createProgressBar, updateProgressBar, getDateScructure, newData
+from bot_functions import startBot, createProgressBar, updateProgressBar, getDateScructure, isNewData
 from tableauscraper import TableauScraper as TS
 
 # Obtain keys from private.py
@@ -47,9 +47,8 @@ for i in cordobaSelection:
         continue
 
 # Check if the data has changed
-if newData(date):
-    print_info = f"Dato de vacunaciones en Córdoba, España (Fecha: {date}):\n - Al menos una dosis: {al_menos_1D} personas ({cobertura_al_menos_1D}%).\n - Pauta completa: {pauta_completa} personas ({cobertura_pauta_completa}%)."
-    
+print_info = f"Dato de vacunaciones en Córdoba, España (Fecha: {date}):\n - Al menos una dosis: {al_menos_1D} personas ({cobertura_al_menos_1D}%).\n - Pauta completa: {pauta_completa} personas ({cobertura_pauta_completa}%)."
+if isNewData(api, print_info):
     # Update image using percentages
     updateProgressBar(cobertura_al_menos_1D, cobertura_pauta_completa, date)
 
@@ -58,9 +57,5 @@ if newData(date):
     api.update_with_media(f"../images/{dt.year}-{dt.month}-{dt.day}.jpg", print_info);
     print(print_info)
 
-    # Store date in a file for the future deploy
-    f = open("saved_data.txt", "w")
-    f.write(date)
-    f.close()
 else:
     print("No hay nuevos datos")
