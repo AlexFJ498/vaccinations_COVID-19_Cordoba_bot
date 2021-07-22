@@ -1,4 +1,4 @@
-# vacunaciones_COVID-19_Cordoba_bot
+# vaccinations_COVID-19_Cordoba_bot
 A Twitter bot that reports about the percentage of administered doses of COVID-19 vaccines in Cordoba, Spain.
 
 The data is obtained from a Tableau [dashboard](https://public.tableau.com/app/profile/ieca.instituto.de.estadistica.y.cartografia.de.andalucia/viz/SALUDVACUNASCOVIDV3/Dashboard1) that is provided by the Ministry of Health and Families of Andalusia and the Institute of Statistics and Cartography of Andalusia.
